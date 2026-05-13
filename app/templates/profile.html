@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <h1>Личный кабинет — {{ current_user.username }}</h1>
+        <p><strong>Email:</strong> {{ current_user.email }}</p>
+        
+        <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-primary mb-4">Редактировать профиль</a>
+
+        <h3>Мои события ({{ user_events|length }})</h3>
+        {% if user_events %}
+        <div class="row">
+            {% for event in user_events %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    {% if event.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + event.image) }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5>{{ event.title }}</h5>
+                        <p class="text-muted">{{ event.date.strftime('%d.%m.%Y %H:%M') }} • {{ event.location }}</p>
+                        <a href="{{ url_for('events.detail', event_id=event.id) }}" class="btn btn-info btn-sm">Подробнее</a>
+                        <a href="{{ url_for('events.delete_event', event_id=event.id) }}" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Удалить событие?')">Удалить</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>У вас пока нет созданных событий.</p>
+        {% endif %}
+
+        <hr>
+        <h3>Мои регистрации ({{ registrations|length }})</h3>
+        {% if registrations %}
+        <ul class="list-group">
+            {% for reg in registrations %}
+            <li class="list-group-item">
+                <strong>{{ reg.event.title }}</strong> — {{ reg.event.date.strftime('%d.%m.%Y %H:%M') }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Вы ещё никуда не записались.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

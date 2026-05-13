@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h2 class="mb-4">Создать новое событие</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                {{ form.title.label }}
+                {{ form.title(class="form-control") }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.description.label }}
+                {{ form.description(class="form-control", rows=5) }}
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.date.label }}
+                    {{ form.date(class="form-control") }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.location.label }}
+                    {{ form.location(class="form-control") }}
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                {{ form.category.label }}
+                {{ form.category(class="form-select") }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.image.label }}
+                {{ form.image(class="form-control") }}
+            </div>
+            
+            {{ form.submit(class="btn btn-success btn-lg") }}
+        </form>
+    </div>
+</div>
+{% endblock %}
